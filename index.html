@@ -4,91 +4,143 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NeyLight a.s.</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f3f3f3;
+            background-color: #f0f2f5;
+            color: #333;
         }
+
         .container {
-            max-width: 800px;
-            margin: 50px auto;
+            max-width: 1000px;
+            margin: 40px auto;
             padding: 20px;
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
+
         .logo {
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
-        .produkt {
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            margin-bottom: 20px;
+
+        .logo img {
+            width: 250px;
         }
-        .produkt h2 {
-            margin-top: 0;
-        }
-        .cena {
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
-        .order-button {
-            display: block;
-            width: 100%;
-            padding: 10px 0;
-            text-align: center;
-            background-color: #4caf50;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: background-color 0.3s;
-            margin-bottom: 20px;
-        }
-        .order-button:hover {
-            background-color: #45a049;
-        }
-        .fa-icon {
-            margin-right: 5px;
-        }
-        .kontakt-info {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .tucny-text {
-            font-weight: bold;
-        }
-        .produkt-obr {
-            text-align: center;
-            margin-bottom: 20px;
-        }
+
         .firma-info {
             text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .firma-info h2 {
+            margin-bottom: 10px;
+        }
+
+        .produkt {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f9fafb;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            border: 1px solid #e0e0e0;
+        }
+
+        .produkt img {
+            max-width: 100%;
+            border-radius: 10px;
             margin-bottom: 20px;
         }
-        .infotext {
-            color: red;
-            font-weight: bold;
+
+        .produkt h2 {
+            margin-bottom: 10px;
+            color: #2e7d32;
         }
-		.cancel-button {
-            display: block;
-            width: 100%;
-            padding: 10px 0;
+
+        .cena, .infotext {
+            margin-bottom: 15px;
             text-align: center;
-            background-color: #ff0000;
-            color: #fff;
+        }
+
+        .infotext {
+            color: #c62828;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .order-button, .cancel-button {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
-            cursor: pointer;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            text-align: center;
             text-decoration: none;
-            transition: background-color 0.3s;
-            margin-bottom: 20px;
+            transition: 0.3s;
+            margin-top: 10px;
+        }
+
+        .order-button {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .order-button:hover {
+            background-color: #43a047;
+        }
+
+        .cancel-button {
+            background-color: #f44336;
+            color: #fff;
+        }
+
+        .cancel-button:hover {
+            background-color: #d32f2f;
+        }
+
+        .soutez-button {
+            background-color: #ff9800;
+            margin-bottom: 30px;
+        }
+
+        .soutez-button:hover {
+            background-color: #fb8c00;
+        }
+
+        .kontakt-info {
+            text-align: center;
+            margin-top: 40px;
+        }
+
+        .kontakt-info p {
+            margin: 10px 0;
+        }
+
+        .fa-icon {
+            margin-right: 8px;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 13px;
+            margin-top: 40px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 20px;
+            }
         }
     </style>
 </head>
@@ -96,48 +148,44 @@
 
 <div class="container">
     <div class="logo">
-        <img src="https://i.imgur.com/m41tWrX.png" alt="NeyLight Logo" width="400">
+        <img src="https://i.imgur.com/m41tWrX.png" alt="NeyLight Logo">
     </div>
 
-    <a href="soutez.html" class="order-button" style="background-color: #ff9800;">SOUTĚŽ</a>
+    <a href="soutez.html" class="order-button soutez-button">🎁 SOUTĚŽ</a>
 
     <div class="firma-info">
         <h2>Vítejte na webu společnosti NeyLight</h2>
-        <p>Jsme nová společnost na trhu. Zabýváme se výrobou modulů do všech typů motorových vozidel a všech značek...</p>
+        <p>Jsme nová společnost na trhu. Zabýváme se výrobou modulů do všech typů motorových vozidel a všech značek.</p>
     </div>
 
     <div class="produkt">
-        <div class="produkt-obr">
-            <img src="https://i.imgur.com/75Ak3w4.png" alt="Barney Highlighter">
-        </div>
+        <img src="https://i.imgur.com/aznRJZ4.png" alt="Barney Highlighter">
         <h2>NeyLight AS200</h2>
-        <p>Modul automatického rozsvícení a zahsnutí světel při nastartování a vypnutí motoru. </p>
-        <p class="tucny-text">Cena: 120.000,-</p>
-        <p class="infotext">⚠ Informace pro zákazníky Moduly NeyLight mají pevně stanovenou cenu 120.000,- nikoliv více vyvarujte se proto předraženým produktům. V jiných případech NeyLight nenese žádnou zodpovědnost za funkčnost produktu ⚠</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfzqiuuHmgX9eqvV9zORLHeGouJNj0k8WEjnrpPOywP4lFD3g/viewform" class="order-button">Objednat zde</a>
+        <p>Modul automatického rozsvícení a zhasnutí světel při nastartování a vypnutí motoru.</p>
+        <p class="cena"><strong>Cena:</strong> 120.000,-</p>
+        <p class="infotext">⚠ Moduly NeyLight mají pevně stanovenou cenu. Vyvarujte se předraženým produktům. V opačném případě neneseme zodpovědnost za funkčnost. ⚠</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfzqiuuHmgX9eqvV9zORLHeGouJNj0k8WEjnrpPOywP4lFD3g/viewform" class="order-button">🛒 Objednat zde</a>
     </div>
 
     <div class="produkt">
-        <div class="produkt-obr">
-            <img src="https://i.imgur.com/jOEn5fX.png" alt="NeyLight Emergency">
-        </div>
+        <img src="https://i.imgur.com/jOEn5fX.png" alt="NeyLight Emergency">
         <h2>NeyLight Emergency</h2>
-        <p>Inteligentní bezpečnostní modul, který automaticky detekuje nehodu a v případě neaktivity řidiče do 30–60 vteřin kontaktuje 911. Odesílá přesné GPS souřadnice a základní informace o vozidle pro rychlou pomoc záchranných složek.</p>
-        <p class="tucny-text">Cena: 220.000,-</p>
-        <p class="infotext">⚠ Informace pro zákazníky Moduly NeyLight mají pevně stanovenou cenu 220.000,- nikoliv více vyvarujte se proto předraženým produktům. V jiných případech NeyLight nenese žádnou zodpovědnost za funkčnost produktu ⚠</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNH8NDX4WLEf4vp6kGRDaHuLpivPwSA15VVleKk6ZhL5Id5w/viewform" class="order-button">Objednat zde</a>
+        <p>Inteligentní bezpečnostní modul, který detekuje nehodu a v případě neaktivity řidiče do 30–60 sekund automaticky kontaktuje 911.</p>
+        <p class="cena"><strong>Cena:</strong> 220.000,-</p>
+        <p class="infotext">⚠ Moduly NeyLight mají pevně stanovenou cenu. Vyvarujte se předraženým produktům. V opačném případě neneseme zodpovědnost za funkčnost. ⚠</p>
+        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNH8NDX4WLEf4vp6kGRDaHuLpivPwSA15VVleKk6ZhL5Id5w/viewform" class="order-button">🛒 Objednat zde</a>
     </div>
 
     <div class="kontakt-info">
         <h2>Kontaktujte nás</h2>
-        <p><i class="fas fa-phone fa-icon"></i> <span class="tucny-text">958 246</span></p>
-        <p><i class="fas fa-envelope fa-icon"></i> <span class="tucny-text">barney.highlighter@post.ic</span></p>
+        <p><i class="fas fa-phone fa-icon"></i><strong>958 246</strong></p>
+        <p><i class="fas fa-envelope fa-icon"></i><strong>barney.highlighter@post.ic</strong></p>
     </div>
 </div>
 
-<p style="text-align: center; margin-top: 20px; font-size: 12px; color: #777;">
+<footer>
     TENTO WEB SLOUŽÍ POUZE PRO SERVER SKIMO
-</p>
+</footer>
 
 </body>
 </html>
