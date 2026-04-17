@@ -1,191 +1,201 @@
 <!DOCTYPE html>
 <html lang="cs">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NeyLight a.s.</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f0f2f5;
-            color: #333;
-        }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NeyLight | Rozcestník</title>
 
-        .container {
-            max-width: 1000px;
-            margin: 40px auto;
-            padding: 20px;
-            background-color: #fff;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-        }
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-        .logo {
-            text-align: center;
-            margin-bottom: 30px;
-        }
+<style>
+:root{
+  --blue:#2596be;
+  --light:#e3e6e7;
+  --dark:#171717;
+}
 
-        .logo img {
-            width: 250px;
-        }
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
 
-        .firma-info {
-            text-align: center;
-            margin-bottom: 40px;
-        }
+body{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at top, #1f1f1f, var(--dark));
+  overflow:hidden;
+  color:var(--light);
+}
 
-        .firma-info h2 {
-            margin-bottom: 10px;
-        }
+/* ambient glow */
+.glow{
+  position:absolute;
+  width:700px;
+  height:700px;
+  background:var(--blue);
+  filter:blur(180px);
+  opacity:0.18;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:0;
+  animation:float 8s ease-in-out infinite;
+}
 
-        .produkt {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f9fafb;
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 30px;
-            border: 1px solid #e0e0e0;
-        }
+@keyframes float{
+  0%,100%{ transform:translate(-50%,-50%) scale(1); }
+  50%{ transform:translate(-48%,-52%) scale(1.05); }
+}
 
-        .produkt img {
-            max-width: 100%;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
+.container{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  max-width:900px;
+  padding:20px;
+}
 
-        .produkt h2 {
-            margin-bottom: 10px;
-            color: #2e7d32;
-        }
+h1{
+  font-size:3rem;
+  font-weight:700;
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
 
-        .cena, .infotext {
-            margin-bottom: 15px;
-            text-align: center;
-        }
+.subtitle{
+  opacity:0.7;
+  margin-bottom:50px;
+  font-weight:300;
+}
 
-        .infotext {
-            color: #c62828;
-            font-weight: bold;
-            font-size: 14px;
-        }
+/* cards */
+.cards{
+  display:flex;
+  gap:25px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
 
-        .order-button, .cancel-button {
-            display: inline-block;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            text-decoration: none;
-            transition: 0.3s;
-            margin-top: 10px;
-        }
+.card{
+  width:300px;
+  padding:30px;
+  border-radius:18px;
+  text-decoration:none;
+  color:var(--light);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  position:relative;
+  overflow:hidden;
+  transition:0.4s ease;
+}
 
-        .order-button {
-            background-color: #4caf50;
-            color: #fff;
-        }
+/* light sweep effect */
+.card::before{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:linear-gradient(120deg,transparent,rgba(37,150,190,0.15),transparent);
+  transform:rotate(25deg);
+  transition:0.5s;
+}
 
-        .order-button:hover {
-            background-color: #43a047;
-        }
+.card:hover::before{
+  left:100%;
+}
 
-        .cancel-button {
-            background-color: #f44336;
-            color: #fff;
-        }
+.card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(37,150,190,0.6);
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
+}
 
-        .cancel-button:hover {
-            background-color: #d32f2f;
-        }
+/* logo */
+.logo{
+  width:72px;
+  height:72px;
+  object-fit:contain;
+  margin-bottom:18px;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+  transition:0.4s;
+}
 
-        .soutez-button {
-            background-color: #ff9800;
-            margin-bottom: 30px;
-        }
+.card:hover .logo{
+  transform:scale(1.1) rotate(-2deg);
+}
 
-        .soutez-button:hover {
-            background-color: #fb8c00;
-        }
+/* text */
+.card h2{
+  font-size:1.4rem;
+  margin-bottom:10px;
+  color:var(--blue);
+}
 
-        .kontakt-info {
-            text-align: center;
-            margin-top: 40px;
-        }
+.card p{
+  font-size:0.9rem;
+  opacity:0.7;
+  line-height:1.4;
+}
 
-        .kontakt-info p {
-            margin: 10px 0;
-        }
+/* footer */
+footer{
+  margin-top:50px;
+  font-size:0.75rem;
+  opacity:0.4;
+}
 
-        .fa-icon {
-            margin-right: 8px;
-            color: #555;
-        }
+/* fade-in */
+.container{
+  animation:fadeIn 1s ease-out;
+}
 
-        footer {
-            text-align: center;
-            font-size: 13px;
-            margin-top: 40px;
-            color: #999;
-        }
+@keyframes fadeIn{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
 
-        @media (max-width: 768px) {
-            .container {
-                margin: 20px;
-            }
-        }
-    </style>
+/* mobile */
+@media(max-width:700px){
+  h1{font-size:2.2rem;}
+  .card{width:100%;}
+}
+</style>
 </head>
+
 <body>
 
+<div class="glow"></div>
+
 <div class="container">
-    <div class="logo">
-        <img src="https://i.imgur.com/m41tWrX.png" alt="NeyLight Logo">
-    </div>
+  <h1>NeyLight</h1>
+  <div class="subtitle">Vyberte divizi, do které chcete vstoupit</div>
 
-    <a href="#" class="cancel-button">🎁 SOUTĚŽ UKONČENA 🎁</a>
+  <div class="cards">
 
-    <div class="firma-info">
-        <h2>Vítejte na webu společnosti NeyLight</h2>
-        <p>Jsme nová společnost na trhu. Zabýváme se výrobou modulů do všech typů motorových vozidel a všech značek.</p>
-    </div>
+    <a class="card" href="neylight.html">
+      <img class="logo" src="https://i.imgur.com/XXXXXXX.png" alt="NeyLight logo">
+      <h2>NeyLight a.s.</h2>
+      <p>Prémiová osvětlovací technologie, design a inovace nové generace.</p>
+    </a>
 
-    <div class="produkt">
-        <img src="https://i.imgur.com/aznRJZ4.png" alt="NeyLight AS200">
-        <h2>NeyLight AS200</h2>
-        <p>Modul automatického rozsvícení a zhasnutí světel při nastartování a vypnutí motoru.</p>
-        <p class="cena"><strong>Cena:</strong> 120.000,-</p>
-        <p class="infotext">⚠ Moduly NeyLight mají pevně stanovenou cenu. Vyvarujte se předraženým produktům. V opačném případě neneseme zodpovědnost za funkčnost. ⚠</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfzqiuuHmgX9eqvV9zORLHeGouJNj0k8WEjnrpPOywP4lFD3g/viewform" class="order-button">🛒 Objednat zde</a>
-    </div>
+    <a class="card" href="neycars.html">
+      <img class="logo" src="https://i.imgur.com/XXXXXXX.png" alt="NeyCars logo">
+      <h2>NeyCars service</h2>
+      <p>Profesionální servis, diagnostika a péče o vozidla.</p>
+    </a>
 
-    <div class="produkt">
-        <img src="https://i.imgur.com/jOEn5fX.png" alt="NeyLight Emergency">
-        <h2>NeyLight Emergency</h2>
-        <p>Inteligentní bezpečnostní modul, který detekuje nehodu a v případě neaktivity řidiče do 30–60 sekund automaticky kontaktuje 911.</p>
-        <p class="cena"><strong>Cena:</strong> 220.000,-</p>
-        <p class="infotext">⚠ Moduly NeyLight mají pevně stanovenou cenu. Vyvarujte se předraženým produktům. V opačném případě neneseme zodpovědnost za funkčnost. ⚠</p>
-        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfNH8NDX4WLEf4vp6kGRDaHuLpivPwSA15VVleKk6ZhL5Id5w/viewform" class="order-button">🛒 Objednat zde</a>
-    </div>
+  </div>
 
-    <div class="kontakt-info">
-        <h2>Kontaktujte nás</h2>
-        <p><i class="fas fa-phone fa-icon"></i><strong>958 246</strong></p>
-        <p><i class="fas fa-envelope fa-icon"></i><strong>barney.highlighter@post.ic</strong></p>
-    </div>
+  <footer>© NeyLight Group • All rights reserved</footer>
 </div>
-
-<footer>
-    TENTO WEB SLOUŽÍ POUZE PRO SERVER SKIMO
-</footer>
 
 </body>
 </html>
