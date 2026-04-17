@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Firebase test</title>
+<title>Firestore test</title>
 </head>
 
 <body style="background:#111;color:white;">
 
-<h1>Firebase test</h1>
+<h1>Firestore test</h1>
 
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
 <script>
-if(typeof firebase !== "undefined"){
-  document.body.innerHTML += "<p>Firebase NAČTEN ✔</p>";
-} else {
-  document.body.innerHTML += "<p>Firebase NEFUNGUJE ❌</p>";
-}
+const firebaseConfig = {
+  apiKey: "AIzaSyC1ZGJf6oz0D3BAYeCEmg1ZfCzRmkvQC-4",
+  authDomain: "neylight-system.firebaseapp.com",
+  projectId: "neylight-system"
+};
+
+firebase.initializeApp(firebaseConfig);
+
+const db = firebase.firestore();
+
+db.collection("faktury").get()
+.then(() => {
+  document.body.innerHTML += "<p>Firestore FUNGUJE ✔</p>";
+})
+.catch(() => {
+  document.body.innerHTML += "<p>Firestore NEFUNGUJE ❌</p>";
+});
 </script>
 
 </body>
