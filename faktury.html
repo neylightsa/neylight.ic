@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<title>NeyLight Fakturační Systém</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial;
+  background:#171717;
+  color:#e3e6e7;
+}
+
+.center{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  flex-direction:column;
+}
+
+input, select{
+  padding:10px;
+  margin:5px;
+  width:250px;
+  background:#222;
+  border:1px solid #444;
+  color:white;
+}
+
+button{
+  padding:10px 15px;
+  background:#2596be;
+  border:none;
+  color:white;
+  cursor:pointer;
+}
+
+#app{
+  display:none;
+  padding:20px;
+}
+
+.card{
+  border:1px solid #333;
+  padding:10px;
+  margin:10px 0;
+  background:#1f1f1f;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="center">
+  <h2>NeyLight Login</h2>
+
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Heslo">
+
+  <button onclick="login()">Přihlásit</button>
+</div>
+
+<!-- APP -->
+<div id="app">
+
+  <h1>Fakturační systém</h1>
+  <button onclick="logout()">Odhlásit</button>
+
+  <hr>
+
+  <!-- SEARCH -->
+  <input id="search" placeholder="Hledat jméno / SPZ / VIN">
+  <select id="filter">
+    <option value="">Vše</option>
+    <option value="NeyLight">NeyLight</option>
+    <option value="NeyCars">NeyCars</option>
+  </select>
+
+  <button onclick="load()">Hledat</button>
+
+  <div id="list"></div>
+
+  <hr>
+
+  <!-- ADD INVOICE -->
+  <h2>Přidat fakturu</h2>
+
+  <input id="customer" placeholder="Zákazník">
+  <input id="phone" placeholder="Telefon">
+  <input id="spz" placeholder="SPZ">
+  <input id="vin" placeholder="VIN">
+  <input id="product" placeholder="Produkt">
+  <input id="price" placeholder="Cena">
+
+  <select id="company">
+    <option value="NeyLight">NeyLight</option>
+    <option value="NeyCars">NeyCars</option>
+  </select>
+
+  <button onclick="add()">Uložit fakturu</button>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { 
+  getFirestore, collection, addDoc, getDocs 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+import { 
+  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyC1ZGJf6oz0D3BAYeCEmg1ZfCzRmkvQC-4",
+  authDomain: "neylight-system.firebaseapp.com",
+  projectId: "neylight-system",
+  storageBucket: "neylight-system.firebasestorage.app",
+  messagingSenderId: "325492680239",
+  appId: "1:325492680239:web:a80e82f4a2dfa59a9408da"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+
+// LOGIN
+window.login = async function(){
+
+  const email = document.getElementById("email").value;
+  const pass = document.getElementById("password").value;
+
+  try {
+    await signInWithEmailAndPassword(auth, email, pass);
+  } catch(e){
+    alert("Chyba loginu");
+  }
+}
+
+// LOGOUT
+window.logout = function(){
+  signOut(auth);
+}
+
+// AUTO UI SWITCH
+onAuthStateChanged(auth, (user) => {
+
+  if(user){
+    document.getElementById("login").style.display = "none";
+    document.getElementById("app").style.display = "block";
+  } else {
+    document.getElementById("login").style.display = "flex";
+    document.getElementById("app").style.display = "none";
+  }
+
+});
+
+// ADD FACTURA
+window.add = async function(){
+
+  await addDoc(collection(db, "faktury"), {
+    customer: customer.value,
+    phone: phone.value,
+    spz: spz.value,
+    vin: vin.value,
+    product: product.value,
+    price: price.value,
+    company: company.value,
+    date: new Date().toLocaleDateString()
+  });
+
+  alert("Uloženo");
+  load();
+}
+
+// LOAD + SEARCH
+window.load = async function(){
+
+  const snap = await getDocs(collection(db, "faktury"));
+
+  const q = search.value.toLowerCase();
+  const f = filter.value;
+
+  list.innerHTML = "";
+
+  snap.forEach(doc => {
+    const d = doc.data();
+
+    if(
+      (d.customer.toLowerCase().includes(q) ||
+       d.spz.toLowerCase().includes(q) ||
+       d.vin.toLowerCase().includes(q)) &&
+      (f === "" || d.company === f)
+    ){
+
+      list.innerHTML += `
+        <div class="card">
+          <b>${d.company}</b><br>
+          ${d.customer}<br>
+          SPZ: ${d.spz}<br>
+          VIN: ${d.vin}<br>
+          Produkt: ${d.product}<br>
+          Cena: ${d.price}<br>
+          Datum: ${d.date}
+        </div>
+      `;
+    }
+  });
+}
+
+</script>
+
+</body>
+</html>
