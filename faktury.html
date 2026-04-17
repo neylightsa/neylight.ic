@@ -20,28 +20,29 @@ body{
   flex-direction:column;
 }
 
-input, select{
-  padding:10px;
-  margin:5px;
+input{
+  padding:8px;
+  margin:4px;
   background:#222;
   border:1px solid #444;
   color:white;
-  width:250px;
+  width:220px;
 }
 
 button{
-  padding:10px 15px;
+  padding:8px 12px;
   background:#2596be;
   border:none;
   color:white;
+  margin:3px;
 }
 
-#app{ display:none; padding:20px; }
+#app{ display:none; padding:15px; }
 
 .card{
   border:1px solid #333;
-  margin:10px 0;
-  padding:10px;
+  margin:8px 0;
+  padding:8px;
   background:#1f1f1f;
 }
 </style>
@@ -50,33 +51,30 @@ button{
 <body>
 
 <!-- LOGIN -->
-<div id="login" class="center">
+<div id="loginBox" class="center">
   <h2>NeyLight Login</h2>
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Heslo">
-  <button onclick="login()">Přihlásit</button>
+  <button onclick="loginUser()">Přihlásit</button>
 </div>
 
 <!-- APP -->
 <div id="app">
 
   <h1>Faktury</h1>
+
   <button onclick="logout()">Odhlásit</button>
-
-  <hr>
-
-  <button onclick="load()">Načíst faktury</button>
+  <button onclick="load()">Načíst první</button>
+  <button onclick="loadMore()">Načíst další</button>
 
   <div id="list"></div>
 
   <hr>
 
-  <h2>Přidat fakturu</h2>
+  <h3>Přidat fakturu</h3>
 
   <input id="customer" placeholder="Zákazník">
-  <input id="phone" placeholder="Telefon">
   <input id="spz" placeholder="SPZ">
-  <input id="vin" placeholder="VIN">
   <input id="product" placeholder="Produkt">
   <input id="price" placeholder="Cena">
 
@@ -89,7 +87,7 @@ button{
 
 </div>
 
-<!-- FIREBASE v8 (MTA SAFE) -->
+<!-- Firebase -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -98,64 +96,104 @@ button{
 const firebaseConfig = {
   apiKey: "AIzaSyC1ZGJf6oz0D3BAYeCEmg1ZfCzRmkvQC-4",
   authDomain: "neylight-system.firebaseapp.com",
-  projectId: "neylight-system",
-  storageBucket: "neylight-system.firebasestorage.app",
-  messagingSenderId: "325492680239",
-  appId: "1:325492680239:web:a80e82f4a2dfa59a9408da"
+  projectId: "neylight-system"
 };
 
-firebase.initializeApp(firebaseConfig);
+try{ firebase.initializeApp(firebaseConfig); }catch(e){}
 
 const auth = firebase.auth();
 const db = firebase.firestore();
 
+let lastDoc = null;
+
 // LOGIN
-function login(){
+function loginUser(){
   auth.signInWithEmailAndPassword(email.value, password.value)
-  .catch(() => alert("Chyba loginu"));
+  .then(() => {
+    loginBox.style.display = "none";
+    app.style.display = "block";
+  })
+  .catch(() => {
+    alert("Login chyba");
+  });
 }
 
 // LOGOUT
 function logout(){
   auth.signOut();
+  app.style.display = "none";
+  loginBox.style.display = "flex";
 }
 
-// AUTO LOGIN
-auth.onAuthStateChanged(user => {
-
-  if(user){
-    login.style.display = "none";
-    app.style.display = "block";
-    load();
-  } else {
-    login.style.display = "flex";
-    app.style.display = "none";
-  }
-
-});
-
-// LOAD
+// LOAD první dávka
 function load(){
 
-  list.innerHTML = "";
+  list.innerHTML = "Načítám...";
+  lastDoc = null;
 
-  db.collection("faktury").get().then(snapshot => {
+  db.collection("faktury")
+  .limit(5)
+  .get()
+  .then(snapshot => {
+
+    let html = "";
 
     snapshot.forEach(doc => {
+      lastDoc = doc;
+
       const d = doc.data();
 
-      list.innerHTML += `
+      html += `
         <div class="card">
-          <b>${d.company}</b><br>
-          ${d.customer}<br>
-          SPZ: ${d.spz}<br>
-          VIN: ${d.vin}<br>
-          Produkt: ${d.product}<br>
-          Cena: ${d.price}<br>
-          Datum: ${d.date}
+          <b>${d.company || ""}</b><br>
+          ${d.customer || ""}<br>
+          ${d.spz || ""}<br>
+          ${d.price || ""}
         </div>
       `;
     });
+
+    list.innerHTML = html || "Nic";
+
+  })
+  .catch(() => {
+    list.innerHTML = "Chyba načítání";
+  });
+
+}
+
+// LOAD další
+function loadMore(){
+
+  if(!lastDoc){
+    alert("Nejdřív načti první data");
+    return;
+  }
+
+  db.collection("faktury")
+  .startAfter(lastDoc)
+  .limit(5)
+  .get()
+  .then(snapshot => {
+
+    let html = "";
+
+    snapshot.forEach(doc => {
+      lastDoc = doc;
+
+      const d = doc.data();
+
+      html += `
+        <div class="card">
+          <b>${d.company || ""}</b><br>
+          ${d.customer || ""}<br>
+          ${d.spz || ""}<br>
+          ${d.price || ""}
+        </div>
+      `;
+    });
+
+    list.innerHTML += html;
 
   });
 
@@ -166,9 +204,7 @@ function add(){
 
   db.collection("faktury").add({
     customer: customer.value,
-    phone: phone.value,
     spz: spz.value,
-    vin: vin.value,
     product: product.value,
     price: price.value,
     company: company.value,
@@ -176,7 +212,6 @@ function add(){
   });
 
   alert("Uloženo");
-  load();
 }
 </script>
 
