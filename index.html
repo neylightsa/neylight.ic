@@ -1,34 +1,129 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Firestore test</title>
+<meta charset="UTF-8">
+<title>FULL FIREBASE TEST</title>
 </head>
 
-<body style="background:#111;color:white;">
+<body style="background:#111;color:white;font-family:Arial;padding:20px;">
 
-<h1>Firestore test</h1>
+<h1>🔥 Firebase Kompletní Test</h1>
 
+<div id="log"></div>
+
+<hr>
+
+<h2>🔐 Login test</h2>
+<input id="email" placeholder="Email"><br><br>
+<input id="password" type="password" placeholder="Heslo"><br><br>
+<button onclick="login()">Login</button>
+
+<hr>
+
+<h2>📦 Přidat test fakturu</h2>
+<button onclick="addTest()">Přidat test data</button>
+
+<hr>
+
+<h2>📄 Načíst faktury</h2>
+<button onclick="load()">Načíst</button>
+
+<div id="list"></div>
+
+<!-- Firebase v8 -->
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
 <script>
+function log(msg){
+  document.getElementById("log").innerHTML += "<p>" + msg + "</p>";
+}
+
+log("🔄 Startuji test...");
+
+// CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyC1ZGJf6oz0D3BAYeCEmg1ZfCzRmkvQC-4",
   authDomain: "neylight-system.firebaseapp.com",
   projectId: "neylight-system"
 };
 
-firebase.initializeApp(firebaseConfig);
+// INIT
+try {
+  firebase.initializeApp(firebaseConfig);
+  log("✔ Firebase init OK");
+} catch(e){
+  log("❌ Firebase init ERROR");
+}
 
 const db = firebase.firestore();
+const auth = firebase.auth();
 
+// FIRESTORE TEST
 db.collection("faktury").get()
 .then(() => {
-  document.body.innerHTML += "<p>Firestore FUNGUJE ✔</p>";
+  log("✔ Firestore čtení OK");
 })
 .catch(() => {
-  document.body.innerHTML += "<p>Firestore NEFUNGUJE ❌</p>";
+  log("❌ Firestore čtení FAIL");
 });
+
+// LOGIN
+function login(){
+  auth.signInWithEmailAndPassword(email.value, password.value)
+  .then(() => {
+    log("✔ LOGIN OK");
+  })
+  .catch(() => {
+    log("❌ LOGIN FAIL");
+  });
+}
+
+// ADD TEST DATA
+function addTest(){
+  db.collection("faktury").add({
+    customer: "TEST",
+    spz: "TEST123",
+    vin: "000",
+    product: "TEST",
+    price: "1",
+    company: "NeyLight",
+    date: new Date().toLocaleDateString()
+  })
+  .then(() => {
+    log("✔ ZÁPIS OK");
+  })
+  .catch(() => {
+    log("❌ ZÁPIS FAIL");
+  });
+}
+
+// LOAD
+function load(){
+
+  list.innerHTML = "";
+
+  db.collection("faktury").get()
+  .then(snapshot => {
+
+    log("✔ NAČTENÍ OK");
+
+    snapshot.forEach(doc => {
+      const d = doc.data();
+
+      list.innerHTML += `
+        <div style="border:1px solid #333;padding:10px;margin:10px 0;">
+          ${d.customer} | ${d.spz} | ${d.price}
+        </div>
+      `;
+    });
+
+  })
+  .catch(() => {
+    log("❌ NAČTENÍ FAIL");
+  });
+}
 </script>
 
 </body>
