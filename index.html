@@ -1,130 +1,201 @@
 <!DOCTYPE html>
-<html>
+<html lang="cs">
 <head>
-<meta charset="UTF-8">
-<title>FULL FIREBASE TEST</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NeyLight | Rozcestník</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --blue:#2596be;
+  --light:#e3e6e7;
+  --dark:#171717;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+body{
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at top, #1f1f1f, var(--dark));
+  overflow:hidden;
+  color:var(--light);
+}
+
+/* ambient glow */
+.glow{
+  position:absolute;
+  width:700px;
+  height:700px;
+  background:var(--blue);
+  filter:blur(180px);
+  opacity:0.18;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:0;
+  animation:float 8s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{ transform:translate(-50%,-50%) scale(1); }
+  50%{ transform:translate(-48%,-52%) scale(1.05); }
+}
+
+.container{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  max-width:900px;
+  padding:20px;
+}
+
+h1{
+  font-size:3rem;
+  font-weight:700;
+  letter-spacing:1px;
+  margin-bottom:10px;
+}
+
+.subtitle{
+  opacity:0.7;
+  margin-bottom:50px;
+  font-weight:300;
+}
+
+/* cards */
+.cards{
+  display:flex;
+  gap:25px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.card{
+  width:300px;
+  padding:30px;
+  border-radius:18px;
+  text-decoration:none;
+  color:var(--light);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  position:relative;
+  overflow:hidden;
+  transition:0.4s ease;
+}
+
+/* light sweep effect */
+.card::before{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:linear-gradient(120deg,transparent,rgba(37,150,190,0.15),transparent);
+  transform:rotate(25deg);
+  transition:0.5s;
+}
+
+.card:hover::before{
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(37,150,190,0.6);
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
+}
+
+/* logo */
+.logo{
+  width:72px;
+  height:72px;
+  object-fit:contain;
+  margin-bottom:18px;
+  filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+  transition:0.4s;
+}
+
+.card:hover .logo{
+  transform:scale(1.1) rotate(-2deg);
+}
+
+/* text */
+.card h2{
+  font-size:1.4rem;
+  margin-bottom:10px;
+  color:var(--blue);
+}
+
+.card p{
+  font-size:0.9rem;
+  opacity:0.7;
+  line-height:1.4;
+}
+
+/* footer */
+footer{
+  margin-top:50px;
+  font-size:0.75rem;
+  opacity:0.4;
+}
+
+/* fade-in */
+.container{
+  animation:fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn{
+  from{ opacity:0; transform:translateY(10px); }
+  to{ opacity:1; transform:translateY(0); }
+}
+
+/* mobile */
+@media(max-width:700px){
+  h1{font-size:2.2rem;}
+  .card{width:100%;}
+}
+</style>
 </head>
 
-<body style="background:#111;color:white;font-family:Arial;padding:20px;">
+<body>
 
-<h1>🔥 Firebase Kompletní Test</h1>
+<div class="glow"></div>
 
-<div id="log"></div>
+<div class="container">
+  <h1>NeyLight</h1>
+  <div class="subtitle">Vyberte společnost, do které chcete vstoupit</div>
 
-<hr>
+  <div class="cards">
 
-<h2>🔐 Login test</h2>
-<input id="email" placeholder="Email"><br><br>
-<input id="password" type="password" placeholder="Heslo"><br><br>
-<button onclick="login()">Login</button>
+    <a class="card" href="neylight.html">
+      <img class="logo" src="https://i.imgur.com/FxKB36d.png" alt="NeyLight logo">
+      <h2>NeyLight a.s.</h2>
+      <p>Prémiové osvětlovací moduly, emergency modul a inovace nové generace.</p>
+    </a>
 
-<hr>
+    <a class="card" href="faktury.html">
+      <img class="logo" src="https://i.imgur.com/byF21KC.png" alt="NeyCars logo">
+      <h2>NeyCars Service</h2>
+      <p>Profesionální servis, diagnostika a péče o vozidla.</p>
+    </a>
 
-<h2>📦 Přidat test fakturu</h2>
-<button onclick="addTest()">Přidat test data</button>
+  </div>
 
-<hr>
-
-<h2>📄 Načíst faktury</h2>
-<button onclick="load()">Načíst</button>
-
-<div id="list"></div>
-
-<!-- Firebase v8 -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
-<script>
-function log(msg){
-  document.getElementById("log").innerHTML += "<p>" + msg + "</p>";
-}
-
-log("🔄 Startuji test...");
-
-// CONFIG
-const firebaseConfig = {
-  apiKey: "AIzaSyC1ZGJf6oz0D3BAYeCEmg1ZfCzRmkvQC-4",
-  authDomain: "neylight-system.firebaseapp.com",
-  projectId: "neylight-system"
-};
-
-// INIT
-try {
-  firebase.initializeApp(firebaseConfig);
-  log("✔ Firebase init OK");
-} catch(e){
-  log("❌ Firebase init ERROR");
-}
-
-const db = firebase.firestore();
-const auth = firebase.auth();
-
-// FIRESTORE TEST
-db.collection("faktury").get()
-.then(() => {
-  log("✔ Firestore čtení OK");
-})
-.catch(() => {
-  log("❌ Firestore čtení FAIL");
-});
-
-// LOGIN
-function login(){
-  auth.signInWithEmailAndPassword(email.value, password.value)
-  .then(() => {
-    log("✔ LOGIN OK");
-  })
-  .catch(() => {
-    log("❌ LOGIN FAIL");
-  });
-}
-
-// ADD TEST DATA
-function addTest(){
-  db.collection("faktury").add({
-    customer: "TEST",
-    spz: "TEST123",
-    vin: "000",
-    product: "TEST",
-    price: "1",
-    company: "NeyLight",
-    date: new Date().toLocaleDateString()
-  })
-  .then(() => {
-    log("✔ ZÁPIS OK");
-  })
-  .catch(() => {
-    log("❌ ZÁPIS FAIL");
-  });
-}
-
-// LOAD
-function load(){
-
-  list.innerHTML = "";
-
-  db.collection("faktury").get()
-  .then(snapshot => {
-
-    log("✔ NAČTENÍ OK");
-
-    snapshot.forEach(doc => {
-      const d = doc.data();
-
-      list.innerHTML += `
-        <div style="border:1px solid #333;padding:10px;margin:10px 0;">
-          ${d.customer} | ${d.spz} | ${d.price}
-        </div>
-      `;
-    });
-
-  })
-  .catch(() => {
-    log("❌ NAČTENÍ FAIL");
-  });
-}
-</script>
+  <footer>© NeyLight Group • All rights reserved</footer>
+</div>
 
 </body>
 </html>
