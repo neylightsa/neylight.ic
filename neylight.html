@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeyLight a.s.</title>
+
+<style>
+:root{
+  --blue:#2596be;
+  --light:#e3e6e7;
+  --dark:#171717;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: Arial, sans-serif;
+}
+
+body{
+  background: linear-gradient(180deg,#1c1c1c,var(--dark));
+  color:var(--light);
+}
+
+/* layout */
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+}
+
+/* header */
+.header{
+  text-align:center;
+  margin-bottom:50px;
+}
+
+.header img{
+  width:110px;
+  margin-bottom:15px;
+}
+
+.header h1{
+  font-size:2.5rem;
+}
+
+.badge{
+  margin-top:10px;
+  display:inline-block;
+  padding:8px 15px;
+  border-radius:20px;
+  background:#2a1a1a;
+  color:#ff4d4d;
+  font-weight:bold;
+  font-size:0.9rem;
+}
+
+/* intro */
+.intro{
+  text-align:center;
+  max-width:700px;
+  margin:0 auto 60px;
+  line-height:1.6;
+  opacity:0.85;
+}
+
+/* products */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:25px;
+}
+
+.card{
+  background:#1f1f1f;
+  border:1px solid #2c2c2c;
+  border-radius:12px;
+  padding:20px;
+  transition:0.3s;
+}
+
+.card:hover{
+  border-color:var(--blue);
+}
+
+.card img{
+  width:100%;
+  height:180px;
+  object-fit:contain;
+  margin-bottom:10px;
+}
+
+.card h2{
+  color:var(--blue);
+  margin-bottom:8px;
+}
+
+.price{
+  margin:10px 0;
+  font-weight:bold;
+}
+
+.warning{
+  font-size:0.8rem;
+  opacity:0.6;
+  margin:10px 0;
+}
+
+/* button */
+.btn{
+  display:inline-block;
+  margin-top:10px;
+  padding:10px 15px;
+  background:var(--blue);
+  color:#fff;
+  text-decoration:none;
+  border-radius:8px;
+}
+
+.btn:hover{
+  background:#1f7fa1;
+}
+
+/* contact */
+.contact{
+  text-align:center;
+  margin-top:70px;
+}
+
+.contact h2{
+  color:var(--blue);
+  margin-bottom:10px;
+}
+
+/* mobile */
+@media(max-width:700px){
+  .grid{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="https://i.imgur.com/ldxBMuo.png" alt="NeyLight logo">
+    <h1>NeyLight a.s.</h1>
+    <div class="badge">🎁 SOUTĚŽ UKONČENA 🎁</div>
+  </div>
+
+  <!-- TEXT -->
+  <div class="intro">
+    Vítejte na webu společnosti NeyLight.<br><br>
+    Jsme nová společnost na trhu. Zabýváme se výrobou modulů do všech typů motorových vozidel a všech značek.
+  </div>
+
+  <!-- PRODUKTY -->
+  <div class="grid">
+
+    <!-- AS200 -->
+    <div class="card">
+      <img src="https://i.imgur.com/aznRJZ4.png">
+      <h2>NeyLight AS200</h2>
+      <p>Modul automatického rozsvícení a zhasnutí světel při nastartování a vypnutí motoru.</p>
+      <div class="price">Cena: 120.000,-</div>
+      <div class="warning">
+        ⚠ Moduly NeyLight mají pevně stanovenou cenu. Vyvarujte se předraženým produktům.
+      </div>
+      <a href="#" class="btn">🛒 Objednat zde</a>
+    </div>
+
+    <!-- EMERGENCY -->
+    <div class="card">
+      <img src="https://i.imgur.com/jOEn5fX.png">
+      <h2>NeyLight Emergency</h2>
+      <p>Inteligentní bezpečnostní modul, který detekuje nehodu a automaticky kontaktuje 911.</p>
+      <div class="price">Cena: 220.000,-</div>
+      <div class="warning">
+        ⚠ Moduly NeyLight mají pevně stanovenou cenu. Vyvarujte se předraženým produktům.
+      </div>
+      <a href="#" class="btn">🛒 Objednat zde</a>
+    </div>
+
+  </div>
+
+  <!-- KONTAKT -->
+  <div class="contact">
+    <h2>Kontaktujte nás</h2>
+    <p>958 246</p>
+    <p>barney.highlighter@post.ic</p>
+  </div>
+
+</div>
+
+</body>
+</html>
