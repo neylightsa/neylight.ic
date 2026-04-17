@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>NeyLight Fakturační Systém</title>
+<title>NeyLight systém</title>
 
 <style>
 body{
@@ -23,10 +23,10 @@ body{
 input, select{
   padding:10px;
   margin:5px;
-  width:250px;
   background:#222;
   border:1px solid #444;
   color:white;
+  width:250px;
 }
 
 button{
@@ -34,18 +34,14 @@ button{
   background:#2596be;
   border:none;
   color:white;
-  cursor:pointer;
 }
 
-#app{
-  display:none;
-  padding:20px;
-}
+#app{ display:none; padding:20px; }
 
 .card{
   border:1px solid #333;
-  padding:10px;
   margin:10px 0;
+  padding:10px;
   background:#1f1f1f;
 }
 </style>
@@ -56,36 +52,25 @@ button{
 <!-- LOGIN -->
 <div id="login" class="center">
   <h2>NeyLight Login</h2>
-
   <input id="email" placeholder="Email">
   <input id="password" type="password" placeholder="Heslo">
-
   <button onclick="login()">Přihlásit</button>
 </div>
 
 <!-- APP -->
 <div id="app">
 
-  <h1>Fakturační systém</h1>
+  <h1>Faktury</h1>
   <button onclick="logout()">Odhlásit</button>
 
   <hr>
 
-  <!-- SEARCH -->
-  <input id="search" placeholder="Hledat jméno / SPZ / VIN">
-  <select id="filter">
-    <option value="">Vše</option>
-    <option value="NeyLight">NeyLight</option>
-    <option value="NeyCars">NeyCars</option>
-  </select>
-
-  <button onclick="load()">Hledat</button>
+  <button onclick="load()">Načíst faktury</button>
 
   <div id="list"></div>
 
   <hr>
 
-  <!-- ADD INVOICE -->
   <h2>Přidat fakturu</h2>
 
   <input id="customer" placeholder="Zákazník">
@@ -100,21 +85,16 @@ button{
     <option value="NeyCars">NeyCars</option>
   </select>
 
-  <button onclick="add()">Uložit fakturu</button>
+  <button onclick="add()">Uložit</button>
 
 </div>
 
-<script type="module">
+<!-- FIREBASE v8 (MTA SAFE) -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { 
-  getFirestore, collection, addDoc, getDocs 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-import { 
-  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged 
-} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyC1ZGJf6oz0D3BAYeCEmg1ZfCzRmkvQC-4",
   authDomain: "neylight-system.firebaseapp.com",
@@ -124,45 +104,67 @@ const firebaseConfig = {
   appId: "1:325492680239:web:a80e82f4a2dfa59a9408da"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const auth = getAuth(app);
+firebase.initializeApp(firebaseConfig);
+
+const auth = firebase.auth();
+const db = firebase.firestore();
 
 // LOGIN
-window.login = async function(){
-
-  const email = document.getElementById("email").value;
-  const pass = document.getElementById("password").value;
-
-  try {
-    await signInWithEmailAndPassword(auth, email, pass);
-  } catch(e){
-    alert("Chyba loginu");
-  }
+function login(){
+  auth.signInWithEmailAndPassword(email.value, password.value)
+  .catch(() => alert("Chyba loginu"));
 }
 
 // LOGOUT
-window.logout = function(){
-  signOut(auth);
+function logout(){
+  auth.signOut();
 }
 
-// AUTO UI SWITCH
-onAuthStateChanged(auth, (user) => {
+// AUTO LOGIN
+auth.onAuthStateChanged(user => {
 
   if(user){
-    document.getElementById("login").style.display = "none";
-    document.getElementById("app").style.display = "block";
+    login.style.display = "none";
+    app.style.display = "block";
+    load();
   } else {
-    document.getElementById("login").style.display = "flex";
-    document.getElementById("app").style.display = "none";
+    login.style.display = "flex";
+    app.style.display = "none";
   }
 
 });
 
-// ADD FACTURA
-window.add = async function(){
+// LOAD
+function load(){
 
-  await addDoc(collection(db, "faktury"), {
+  list.innerHTML = "";
+
+  db.collection("faktury").get().then(snapshot => {
+
+    snapshot.forEach(doc => {
+      const d = doc.data();
+
+      list.innerHTML += `
+        <div class="card">
+          <b>${d.company}</b><br>
+          ${d.customer}<br>
+          SPZ: ${d.spz}<br>
+          VIN: ${d.vin}<br>
+          Produkt: ${d.product}<br>
+          Cena: ${d.price}<br>
+          Datum: ${d.date}
+        </div>
+      `;
+    });
+
+  });
+
+}
+
+// ADD
+function add(){
+
+  db.collection("faktury").add({
     customer: customer.value,
     phone: phone.value,
     spz: spz.value,
@@ -176,42 +178,6 @@ window.add = async function(){
   alert("Uloženo");
   load();
 }
-
-// LOAD + SEARCH
-window.load = async function(){
-
-  const snap = await getDocs(collection(db, "faktury"));
-
-  const q = search.value.toLowerCase();
-  const f = filter.value;
-
-  list.innerHTML = "";
-
-  snap.forEach(doc => {
-    const d = doc.data();
-
-    if(
-      (d.customer.toLowerCase().includes(q) ||
-       d.spz.toLowerCase().includes(q) ||
-       d.vin.toLowerCase().includes(q)) &&
-      (f === "" || d.company === f)
-    ){
-
-      list.innerHTML += `
-        <div class="card">
-          <b>${d.company}</b><br>
-          ${d.customer}<br>
-          SPZ: ${d.spz}<br>
-          VIN: ${d.vin}<br>
-          Produkt: ${d.product}<br>
-          Cena: ${d.price}<br>
-          Datum: ${d.date}
-        </div>
-      `;
-    }
-  });
-}
-
 </script>
 
 </body>
