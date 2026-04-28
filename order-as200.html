@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Objednávka AS200 | NeyLight</title>
+
+<style>
+:root{
+  --blue:#2596be;
+  --light:#e3e6e7;
+  --dark:#171717;
+}
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial;
+}
+
+body{
+  background:linear-gradient(180deg,#1c1c1c,var(--dark));
+  color:var(--light);
+}
+
+.container{
+  max-width:650px;
+  margin:auto;
+  padding:40px 20px;
+}
+
+.header{
+  text-align:center;
+  margin-bottom:20px;
+}
+.header img{
+  width:150px;
+}
+
+/* PRODUCT IMAGE */
+.product-img{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin-bottom:25px;
+}
+
+.product-img img{
+  width:260px;
+  height:170px;
+  object-fit:contain;
+  filter: drop-shadow(0 0 10px #2596be55);
+}
+
+/* FORM */
+.form-box{
+  background:#1f1f1f;
+  border:1px solid #2c2c2c;
+  border-radius:12px;
+  padding:25px;
+}
+
+h2{
+  color:var(--blue);
+  margin-bottom:15px;
+}
+
+input{
+  width:100%;
+  padding:12px;
+  margin-bottom:10px;
+  border:none;
+  border-radius:8px;
+  background:#2a2a2a;
+  color:white;
+}
+
+/* VEHICLES */
+.vehicle{
+  margin-bottom:15px;
+  padding:10px;
+  border:1px solid #2c2c2c;
+  border-radius:8px;
+}
+
+/* ADD BUTTON */
+.add-btn{
+  width:100%;
+  padding:10px;
+  margin-bottom:15px;
+  background:#333;
+  color:white;
+  border:none;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.add-btn:hover{
+  background:#444;
+}
+
+/* SUBMIT */
+.btn{
+  width:100%;
+  padding:15px;
+  background:var(--blue);
+  border:none;
+  border-radius:8px;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.btn:hover{
+  background:#1f7fa1;
+}
+
+/* BACK */
+.back{
+  text-align:center;
+  margin-top:20px;
+}
+.back a{
+  color:var(--blue);
+  text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <img src="https://i.imgur.com/FxKB36d.png">
+    <h1>NeyLight AS200</h1>
+  </div>
+
+  <!-- PRODUCT IMAGE -->
+  <div class="product-img">
+    <img src="https://i.imgur.com/aznRJZ4.png" alt="NeyLight AS200">
+  </div>
+
+  <!-- FORM -->
+  <div class="form-box">
+    <h2>Objednávka</h2>
+
+    <form action="https://formspree.io/f/mdayrrbe" method="POST">
+
+      <input type="hidden" name="Produkt" value="NeyLight AS200">
+
+      <input type="text" name="Jméno" placeholder="Jméno" required>
+      <input type="text" name="Příjmení" placeholder="Příjmení" required>
+
+      <!-- VEHICLES -->
+      <div id="vehicles">
+        <div class="vehicle">
+          <input type="text" name="VIN[]" placeholder="VIN vozidla" required>
+          <input type="text" name="RZ[]" placeholder="RZ vozidla" required>
+        </div>
+      </div>
+
+      <button type="button" class="add-btn" onclick="addVehicle()">
+        + Přidat další vozidlo
+      </button>
+
+      <input type="number" name="Počet ks" placeholder="Počet ks" required>
+      <input type="email" name="Email" placeholder="Email" required>
+      <input type="text" name="Telefon" placeholder="Telefon" required>
+
+      <input type="hidden" name="_subject" value="Objednávka AS200">
+      <input type="hidden" name="_captcha" value="false">
+
+      <button type="submit" class="btn">Odeslat objednávku</button>
+
+    </form>
+  </div>
+
+  <!-- BACK -->
+  <div class="back">
+    <a href="index.html">← Zpět</a>
+  </div>
+
+</div>
+
+<script>
+function addVehicle(){
+  const container = document.getElementById("vehicles");
+
+  const div = document.createElement("div");
+  div.classList.add("vehicle");
+
+  div.innerHTML = `
+    <input type="text" name="VIN[]" placeholder="VIN vozidla" required>
+    <input type="text" name="RZ[]" placeholder="RZ vozidla" required>
+  `;
+
+  container.appendChild(div);
+}
+</script>
+
+</body>
+</html>
