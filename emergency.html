@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NeyLight Emergency</title>
+
+<style>
+:root{
+  --blue:#2596be;
+  --light:#e3e6e7;
+  --dark:#171717;
+}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+body{background:linear-gradient(180deg,#1c1c1c,var(--dark));color:var(--light);}
+.container{max-width:1000px;margin:auto;padding:50px 20px;}
+
+.header{text-align:center;margin-bottom:40px;}
+.header img{width:180px;}
+
+.product{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;}
+.product img{width:100%;background:#111;padding:20px;border-radius:12px;}
+
+.info h2{color:var(--blue);}
+.price{font-size:1.3rem;font-weight:bold;margin:15px 0;}
+.desc{opacity:0.8;line-height:1.6;}
+
+.btn{
+  display:inline-block;
+  margin-top:20px;
+  padding:12px 20px;
+  background:var(--blue);
+  color:white;
+  text-decoration:none;
+  border-radius:8px;
+}
+.btn:hover{background:#1f7fa1;}
+
+.back{text-align:center;margin-top:40px;}
+.back a{color:var(--blue);text-decoration:none;}
+
+@media(max-width:700px){
+  .product{grid-template-columns:1fr;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <img src="https://i.imgur.com/FxKB36d.png">
+    <h1>NeyLight a.s.</h1>
+  </div>
+
+  <div class="product">
+    <img src="https://i.imgur.com/jOEn5fX.png">
+
+    <div class="info">
+      <h2>NeyLight Emergency</h2>
+      <div class="price">Cena: 220.000,-</div>
+
+      <div class="desc">
+        Inteligentní bezpečnostní modul, který detekuje nehodu a automaticky kontaktuje záchranné složky.<br><br>
+        ✔ detekce nehody<br>
+        ✔ automatické volání pomoci<br>
+        ✔ zvýšení bezpečnosti
+      </div>
+
+      <a href="order.html?product=NeyLight%20Emergency" class="btn">🛒 Objednat</a>
+    </div>
+  </div>
+
+  <div class="back">
+    <a href="index.html">← Zpět</a>
+  </div>
+
+</div>
+
+</body>
+</html>
