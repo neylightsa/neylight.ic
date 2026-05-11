@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NeyCars Service</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --blue:#2596be;
+  --light:#e3e6e7;
+  --dark:#171717;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Inter', sans-serif;
+}
+
+body{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background: radial-gradient(circle at top, #1f1f1f, var(--dark));
+  overflow:hidden;
+  color:var(--light);
+  padding:20px;
+}
+
+/* ambient glow */
+.glow{
+  position:absolute;
+  width:700px;
+  height:700px;
+  background:var(--blue);
+  filter:blur(180px);
+  opacity:0.18;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  z-index:0;
+  animation:float 8s ease-in-out infinite;
+}
+
+@keyframes float{
+  0%,100%{ transform:translate(-50%,-50%) scale(1); }
+  50%{ transform:translate(-48%,-52%) scale(1.05); }
+}
+
+.container{
+  position:relative;
+  z-index:2;
+  text-align:center;
+  max-width:1000px;
+  width:100%;
+  animation:fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+    transform:translateY(10px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}
+
+.logo-main{
+  width:110px;
+  margin-bottom:20px;
+  filter:drop-shadow(0 10px 25px rgba(0,0,0,0.6));
+}
+
+h1{
+  font-size:3rem;
+  font-weight:700;
+  letter-spacing:1px;
+  margin-bottom:12px;
+}
+
+.subtitle{
+  opacity:0.75;
+  margin-bottom:15px;
+  font-size:1.05rem;
+  font-weight:300;
+}
+
+.description{
+  max-width:760px;
+  margin:0 auto 55px;
+  opacity:0.65;
+  line-height:1.7;
+  font-size:0.95rem;
+}
+
+/* cards */
+.cards{
+  display:flex;
+  gap:25px;
+  justify-content:center;
+  flex-wrap:wrap;
+}
+
+.card{
+  width:320px;
+  padding:35px 30px;
+  border-radius:20px;
+  text-decoration:none;
+  color:var(--light);
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(14px);
+  position:relative;
+  overflow:hidden;
+  transition:0.4s ease;
+}
+
+/* animated light sweep */
+.card::before{
+  content:"";
+  position:absolute;
+  top:-50%;
+  left:-50%;
+  width:200%;
+  height:200%;
+  background:
+    linear-gradient(
+      120deg,
+      transparent,
+      rgba(37,150,190,0.15),
+      transparent
+    );
+  transform:rotate(25deg);
+  transition:0.6s;
+}
+
+.card:hover::before{
+  left:100%;
+}
+
+.card:hover{
+  transform:translateY(-10px);
+  border-color:rgba(37,150,190,0.6);
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
+}
+
+.icon{
+  font-size:3rem;
+  margin-bottom:18px;
+  display:block;
+}
+
+.card h2{
+  font-size:1.35rem;
+  margin-bottom:12px;
+  color:var(--blue);
+}
+
+.card p{
+  font-size:0.92rem;
+  opacity:0.72;
+  line-height:1.6;
+}
+
+/* footer */
+footer{
+  margin-top:55px;
+  font-size:0.75rem;
+  opacity:0.4;
+}
+
+@media(max-width:700px){
+
+  body{
+    overflow:auto;
+  }
+
+  h1{
+    font-size:2.2rem;
+  }
+
+  .card{
+    width:100%;
+  }
+
+  .description{
+    font-size:0.9rem;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="glow"></div>
+
+<div class="container">
+
+  <img 
+    class="logo-main"
+    src="https://i.imgur.com/byF21KC.png"
+    alt="NeyCars logo"
+  >
+
+  <h1>NeyCars Service</h1>
+
+  <div class="subtitle">
+    Profesionální úpravy, servis a péče o vozidla
+  </div>
+
+  <div class="description">
+    Vítejte na webu společnosti NeyCars Service.<br><br>
+    
+    Jsme moderní autoservis zaměřený na úpravy vozidel,
+    profesionální diagnostiku a individuální řešení pro všechny
+    typy motorových vozidel a značek.
+    
+    Specializujeme se na kvalitní servis, technické úpravy,
+    konfigurace vozidel a kompletní zákaznickou podporu.
+  </div>
+
+  <div class="cards">
+
+    <!-- konfigurátor -->
+    <a class="card" href="https://docs.google.com/forms/d/e/1FAIpQLSe5Rf2U8YPQ9dCz7NDI61ak9qAPu3yUAqsLxcnZhb3W917JGw/viewform?usp=dialog">
+
+      <span class="icon">⚙️</span>
+
+      <h2>Konfigurátor úprav</h2>
+
+      <p>
+        Objednávkový formulář pro konfiguraci úprav vozidla.
+        Vyberte požadované úpravy, specifikace a odešlete
+        poptávku jednoduše online.
+      </p>
+
+    </a>
+
+    <!-- protokol -->
+    <a class="card" href="protokol.html">
+
+      <span class="icon">📄</span>
+
+      <h2>Obnova protokolu úprav</h2>
+
+      <p>
+        Žádost o obnovu propadlého protokolu úprav vozidla.
+        Rychlé vyřízení, kontrola údajů a profesionální asistence.
+      </p>
+
+    </a>
+
+  </div>
+
+  <footer>
+    © NeyCars Service • All rights reserved
+  </footer>
+
+</div>
+
+</body>
+</html>
